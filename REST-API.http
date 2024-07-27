@@ -1,0 +1,44 @@
+
+@baseUrl = http://localhost:8080
+
+###
+POST {{baseUrl}}/match
+Content-Type: application/json
+
+{
+    "profileId": "1ac57bbd-c7e0-4c47-b900-ffd45988ab98"
+}
+
+###
+
+GET {{baseUrl}}/match
+
+
+
+@baseUrl = http://localhost:8080
+
+###
+# @name createConversation
+POST {{baseUrl}}/conversations
+Content-Type: application/json
+
+{
+  "profileId": "1"
+}
+
+###
+#{{createConversation.response.body.$.id}}
+###
+@conversationId = 9616c47b-3e1c-408d-9f02-269d92b4c699
+###
+POST {{baseUrl}}/conversations/{{conversationId}}
+Content-Type: application/json
+
+{
+  "authorId": "user",
+  "messsageText": "sure I can talk for hours about programming hope I dont bore you"
+}
+
+###
+
+GET {{baseUrl}}/conversations/{{conversationId}}
