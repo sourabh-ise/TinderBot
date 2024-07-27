@@ -18,9 +18,6 @@ public class ProfileCreationService {
 
     private final ProfileRepository profileRepository;
 
-    @Value("${tinderai.lookingForGender}")
-    private String lookingForGender;
-
     @Value("#{${tinderai.character.user}}")
     private Map<String, String> userProfileProperties;
 
@@ -32,7 +29,7 @@ public class ProfileCreationService {
         ObjectMapper objectMapper = new ObjectMapper();
         ClassPathResource resource = new ClassPathResource(PROFILES_FILE_PATH);
         try (InputStream inputStream = resource.getInputStream()) {
-            List<Profile> profiles = objectMapper.readValue(inputStream, new TypeReference<List<Profile>>() {
+            List<Profile> profiles = objectMapper.readValue(inputStream, new TypeReference<>() {
             });
             profileRepository.deleteAll();
             profileRepository.saveAll(profiles);

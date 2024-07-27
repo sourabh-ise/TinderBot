@@ -12,14 +12,16 @@ import org.springframework.ai.chat.messages.UserMessage;
 import org.springframework.ai.chat.model.ChatResponse;
 import org.springframework.ai.chat.prompt.Prompt;
 import org.springframework.ai.ollama.OllamaChatModel;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
 public class ConversationService {
 
-    @Autowired
     OllamaChatModel chatModel;
+
+    public ConversationService(OllamaChatModel chatModel) {
+        this.chatModel = chatModel;
+    }
 
     public void generateProfileResponse(Conversation conversation, Profile profile, Profile user) {
         SystemMessage systemMessage = getSystemMessage(profile, user);
@@ -43,13 +45,14 @@ public class ConversationService {
     private static SystemMessage getSystemMessage(final Profile profile, final Profile user) {
         String systemMessageStr = STR."""
             Your are a \{profile.age()} year old \{profile.ethnicity()} \{profile.gender()} called \{profile.firstName()} \{profile.lastName()}
-            with bio \{profile.bio()} and myers briggs personality type is \{profile.myersBriggsPersonalityType()}
+            with bio \{profile.bio()} and myers briggs personality type is \{profile.myersBriggsPersonalityType()}.
             matched with a \{user.age()} year old \{user.ethnicity()} \{user.gender()} called \{user.firstName()} \{user.lastName()}
             with bio \{user.bio()} and myers briggs personality type is \{user.myersBriggsPersonalityType()} on tinder.
-            This is an in-app text conversation between you two. 
-            Pretend to be the described persaon and respond to the conversation based on your profile, personality type as if writing on 
+            This is an in-app text conversation between you two.
+            Pretend to be the described persaon and respond to the conversation based on your profile, personality type as if writing on
             tinder.
-            Keep your responses short, smart, engaging and ensure not to mention anything about you being an AI or chatbot.
+            Keep your responses short, smart, engaging and flirt at times to keep the conversation going.
+            Ensure not to mention anything about you being an AI or chatbot.
             """;
         return new SystemMessage(systemMessageStr);
     }
